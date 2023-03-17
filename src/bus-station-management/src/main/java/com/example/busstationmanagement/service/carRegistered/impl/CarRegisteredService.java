@@ -15,7 +15,7 @@ public class CarRegisteredService implements ICarRegisteredService {
 
     @Override
     public Page<CarRegistered> findAll(Pageable pageable) {
-        return this.carRegisteredRepository.findAll(pageable);
+        return this.carRegisteredRepository.findAll1(pageable);
     }
 
     @Override

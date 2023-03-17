@@ -53,4 +53,13 @@ public class CarRegisteredRestController {
         CarRegistered updatedCarRegistered = carRegisteredService.updateCarRegistered(carRegistered);
         return new ResponseEntity<>(updatedCarRegistered, HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CarRegistered> findById(@PathVariable Long id) {
+        CarRegistered optionalCarRegistered = carRegisteredService.findById(id);
+        if (optionalCarRegistered == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(optionalCarRegistered, HttpStatus.OK);
+    }
 }

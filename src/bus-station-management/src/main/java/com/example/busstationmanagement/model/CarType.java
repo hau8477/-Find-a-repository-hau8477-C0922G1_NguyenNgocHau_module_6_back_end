@@ -1,5 +1,7 @@
 package com.example.busstationmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -10,6 +12,7 @@ public class CarType {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "carType")
+    @JsonBackReference
     private Set<CarRegistered> carRegisters;
 
     public Long getId() {
