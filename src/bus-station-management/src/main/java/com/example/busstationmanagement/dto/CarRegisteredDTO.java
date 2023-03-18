@@ -5,7 +5,6 @@ import com.example.busstationmanagement.model.CarType;
 import com.example.busstationmanagement.model.City;
 
 public class CarRegisteredDTO {
-    private Long id;
     private String numberPlate;
     private CarType carType;
     private CarCompany carCompany;
@@ -15,14 +14,6 @@ public class CarRegisteredDTO {
     private String email;
     private String startHour;
     private String endHour;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNumberPlate() {
         return numberPlate;
