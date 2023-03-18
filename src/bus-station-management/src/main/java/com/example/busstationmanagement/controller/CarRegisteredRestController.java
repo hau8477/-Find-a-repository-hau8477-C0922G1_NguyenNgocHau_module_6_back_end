@@ -3,7 +3,6 @@ package com.example.busstationmanagement.controller;
 import com.example.busstationmanagement.dto.CarRegisteredDTO;
 import com.example.busstationmanagement.model.CarRegistered;
 import com.example.busstationmanagement.service.carRegistered.ICarRegisteredService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @RestController
 @CrossOrigin("*")
@@ -33,18 +30,8 @@ public class CarRegisteredRestController {
         return new ResponseEntity<>(carRegisters, HttpStatus.OK);
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<CarRegistered> addCarRegistered(@RequestBody String carRegisteredDTOJson) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        CarRegisteredDTO carRegisteredDTO = null;
-
-        try {
-            carRegisteredDTO = objectMapper.readValue(carRegisteredDTOJson, CarRegisteredDTO.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+    @PostMapping(value = "/save", consumes = "application/json")
+    public ResponseEntity<CarRegistered> addCarRegistered(@RequestBody CarRegisteredDTO carRegisteredDTO) {
         CarRegistered carRegistered = new CarRegistered();
         BeanUtils.copyProperties(carRegisteredDTO, carRegistered);
 
@@ -54,7 +41,6 @@ public class CarRegisteredRestController {
         }
         return new ResponseEntity<>(savedCarRegistered, HttpStatus.CREATED);
     }
-
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteCarRegistered(@PathVariable Long id) {
@@ -69,11 +55,13 @@ public class CarRegisteredRestController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<CarRegistered> updateCarRegistered(@PathVariable Long id, @RequestBody CarRegistered carRegistered) {
+    public ResponseEntity<CarRegistered> updateCarRegistered(@PathVariable Long id, @RequestBody CarRegisteredDTO carRegisteredDTO) {
         CarRegistered optionalCarRegistered = carRegisteredService.findById(id);
         if (optionalCarRegistered == null) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
+        CarRegistered carRegistered = new CarRegistered();
+        BeanUtils.copyProperties(carRegisteredDTO, carRegistered);
         CarRegistered updatedCarRegistered = carRegisteredService.updateCarRegistered(carRegistered);
         if (updatedCarRegistered == null) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
