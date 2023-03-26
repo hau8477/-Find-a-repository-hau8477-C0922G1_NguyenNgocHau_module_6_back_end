@@ -60,9 +60,8 @@ public class CarRegisteredRestController {
         if (optionalCarRegistered == null) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
-        CarRegistered carRegistered = new CarRegistered();
-        BeanUtils.copyProperties(carRegisteredDTO, carRegistered);
-        CarRegistered updatedCarRegistered = carRegisteredService.updateCarRegistered(carRegistered);
+        BeanUtils.copyProperties(carRegisteredDTO, optionalCarRegistered);
+        CarRegistered updatedCarRegistered = carRegisteredService.updateCarRegistered(optionalCarRegistered);
         if (updatedCarRegistered == null) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
